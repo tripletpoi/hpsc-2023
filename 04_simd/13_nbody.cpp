@@ -4,12 +4,12 @@
 
 int main() {
   const int N = 8;
-  float x[N], y[N], m[N], fx[N], fy[N];
+  float x[N], y[N], m[N], fx[N], fy[N], fx1[N], fy1[N];
   for(int i=0; i<N; i++) {
     x[i] = drand48();
     y[i] = drand48();
     m[i] = drand48();
-    fx[i] = fy[i] = 0;
+    fx[i] = fy[i] = fx1[i] = fy1[N] = 0;
   }
   __m256 xvec = _mm256_load_ps(x);
   __m256 yvec = _mm256_load_ps(y);
@@ -39,12 +39,12 @@ int main() {
     __m256 dfy = _mm256_div_ps(_mm256_mul_ps(ry,mvec),_mm256_mul_ps(r2,r));
 
 
-    _mm256_store_ps(fx,dfx);
-    _mm256_store_ps(fy,dfy);
+    _mm256_store_ps(fx1,dfx);
+    _mm256_store_ps(fy1,dfy);
 
     for(int j=0; j<N; j++){
-        fx[i] -= fx[j];
-        fy[i] -= fx[j];
+        fx[i] -= fx1[j];
+        fy[i] -= fy1[j];
     }
     printf("%d %g %g\n",i,fx[i],fy[i]);
   }
